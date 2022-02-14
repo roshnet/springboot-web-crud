@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import net.guides.springboot.todomanagement.model.Todo;
 import net.guides.springboot.todomanagement.repository.TodoRepository;
 
-
+@Service
 public class TodoService implements ITodoService {
 
   @Autowired
