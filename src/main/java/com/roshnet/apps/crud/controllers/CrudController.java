@@ -22,6 +22,10 @@ public class CrudController {
   @Autowired
   private UserRepository userRepository;
 
+  private String generateRandomName() {
+    return UUID.randomUUID().toString().substring(0, 12).replaceAll("-", "");
+  }
+
   @GetMapping("/all")
   private Object[] getAllUsers() {
     List<User> users = userRepository.findAll();
@@ -49,6 +53,17 @@ public class CrudController {
     User foundUser = user.get();
     userRepository.delete(foundUser);
     return String.format("Deleted user %s", foundUser.getName());
+  }
+
+  @PostMapping("/{id}")
+  private String updateUser(@PathVariable long id) {
+    Optional<User> savedUser = userRepository.findById(id);
+    if (!savedUser.isPresent()) return "No such user found";
+    User user = savedUser.get();
+    String oldUsername = user.getName();
+    user.setName(generateRandomName());
+    userRepository.save(user);
+    return String.format("User %s updated to %s", oldUsername, user.getName());
   }
 
 }
