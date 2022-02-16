@@ -26,10 +26,10 @@ public class CrudController {
     return UUID.randomUUID().toString().substring(0, 12).replaceAll("-", "");
   }
 
-  @GetMapping("/all")
-  private Object[] getAllUsers() {
+  @GetMapping("")
+  private List<User> getAllUsers() {
     List<User> users = userRepository.findAll();
-    return users.toArray();
+    return users;
   }
 
   @GetMapping("/{id}")
@@ -38,12 +38,11 @@ public class CrudController {
     return users.toString();
   }
 
-  @PostMapping("/new")
+  @PostMapping("")
   private String createNewUser() {
-    String uuid = UUID.randomUUID().toString().substring(0, 12).replaceAll("-", "");
-    User user = new User(uuid, "member");
+    User user = new User(generateRandomName(), "member");
     userRepository.save(user);
-    return String.format("Created user %s ", uuid);
+    return String.format("Created user %s ", user.getName());
   }
 
   @DeleteMapping("/{id}")
