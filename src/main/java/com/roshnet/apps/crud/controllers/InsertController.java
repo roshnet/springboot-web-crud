@@ -16,8 +16,15 @@ public class InsertController {
   @GetMapping("/add")
   private String add() {
     User user = new User("roshnet2", "member");
-    long postInsertId = userDAOService.insert(user);
-    return "New user created with ID " + postInsertId;
+    long newUserId = userDAOService.insert(user);
+    return "New user created with ID " + newUserId;
+  }
+
+  @GetMapping("/role")
+  private String getRole() {
+    String role = userDAOService.getRoleByName("roshnet");
+    System.out.println("[OK] Got query result: " + role);
+    return role;
   }
 
 }
