@@ -8,6 +8,7 @@ import com.roshnet.apps.crud.models.User;
 import com.roshnet.apps.crud.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,15 @@ public class CrudController {
     User user = new User(uuid, "member");
     userRepository.save(user);
     return String.format("Created user %s ", uuid);
+  }
+
+  @DeleteMapping("/{id}")
+  private String removeUserById(@PathVariable long id) {
+    Optional<User> user = userRepository.findById(id);
+    if (!user.isPresent()) return "No such user found";
+    User foundUser = user.get();
+    userRepository.delete(foundUser);
+    return String.format("Deleted user %s", foundUser.getName());
   }
 
 }
